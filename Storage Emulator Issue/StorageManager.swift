@@ -16,7 +16,8 @@ class StorageManager: ObservableObject {
         let resizedImage = image.aspectFittedToHeight(200)
         let data = resizedImage.jpegData(compressionQuality: 0.2)
         let metadata = StorageMetadata()
-        // metadata.contentType = "image/jpg"
+        metadata.contentType = "image/jpg"
+        metadata.contentDisposition = "initialCommit";
         if let data = data {
             storageRef.putData(data, metadata: metadata) { (metadata, error) in
                 if let error = error {
@@ -29,6 +30,9 @@ class StorageManager: ObservableObject {
                             if let url = url {
                                 print(url.absoluteString)
                             }
+                            print("vvv putData metadata vvv")
+                            print(metadata ?? "Default Metadata")
+                            print("^^^^^^^^^^^^")
                         }
                     }
                 }
@@ -54,7 +58,7 @@ class StorageManager: ObservableObject {
     func updateMetadata(image: UIImage, for uid: String, named name: String) {
         let storageRef = storage.reference().child("\(uid)//\(name).jpg")
         let newMetadata = StorageMetadata()
-        newMetadata.contentType = "image/jpeg";
+        newMetadata.contentType = "image/png";
         newMetadata.cacheControl = "true";
         newMetadata.contentDisposition = "disposed";
         newMetadata.contentEncoding = "encoded";
