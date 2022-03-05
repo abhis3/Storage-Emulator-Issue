@@ -16,7 +16,7 @@ class StorageManager: ObservableObject {
         let resizedImage = image.aspectFittedToHeight(200)
         let data = resizedImage.jpegData(compressionQuality: 0.2)
         let metadata = StorageMetadata()
-        metadata.contentType = "image/jpg"
+        // metadata.contentType = "image/jpg"
         if let data = data {
             storageRef.putData(data, metadata: metadata) { (metadata, error) in
                 if let error = error {
@@ -34,6 +34,48 @@ class StorageManager: ObservableObject {
                 }
 
             }
+        }
+    }
+    
+    func getMetadata(image: UIImage, for uid: String, named name: String) {
+        let storageRef = storage.reference().child("\(uid)//\(name).jpg")
+        storageRef.getMetadata { metadata, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("++++++++++++")
+                print(metadata ?? "Default Metadata")
+                print("++++++++++++")
+            }
+            
+        }
+    }
+    
+    func updateMetadata(image: UIImage, for uid: String, named name: String) {
+        let storageRef = storage.reference().child("\(uid)//\(name).jpg")
+        let newMetadata = StorageMetadata()
+        newMetadata.contentType = "image/jpeg";
+        newMetadata.cacheControl = "true";
+        newMetadata.contentDisposition = "disposed";
+        newMetadata.contentEncoding = "encoded";
+        newMetadata.contentLanguage = "martian";
+        newMetadata.customMetadata = ["hello": "world"];
+        
+        storageRef.updateMetadata(newMetadata) { metadata, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("$$$$$$$$$$$$$$$$$")
+                print(metadata ?? "Default Metadata")
+                print(metadata?.contentType == "image/jpeg")
+                print(metadata?.cacheControl == "true")
+                print(metadata?.contentDisposition == "disposed")
+                print(metadata?.contentEncoding == "encoded")
+                print(metadata?.contentLanguage == "martian")
+                print(metadata?.customMetadata == ["hello": "world"])
+                print("$$$$$$$$$$$$$$$$$")
+            }
+            
         }
     }
     

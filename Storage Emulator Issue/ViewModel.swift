@@ -76,6 +76,22 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getMetadata() {
+        let storageManager = StorageManager()
+        if let userID = userID {
+            storageManager.getMetadata(image: image, for: "Profiles", named: userID)
+            
+        }
+    }
+    
+    func updateMetadata() {
+        let storageManager = StorageManager()
+        if let userID = userID {
+            storageManager.updateMetadata(image: image, for: "Profiles", named: userID)
+            
+        }
+    }
+    
     func saveProfileImage() {
         let storageManager = StorageManager()
         if let userID = userID {

@@ -72,6 +72,20 @@ struct ContentView: View {
         .onAppear {
             vm.configureFirebaseStateDidChange()
         }
+        if vm.isUserAuthenticated == .signedIn {
+            Button {
+                vm.getMetadata()
+            } label: {
+                Text("Get Metadata")
+            }
+        }
+        if vm.isUserAuthenticated == .signedIn {
+            Button {
+                vm.updateMetadata()
+            } label: {
+                Text("Update Metadata")
+            }
+        }
     }
 }
 
