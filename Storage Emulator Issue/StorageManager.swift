@@ -23,6 +23,45 @@ class StorageManager: ObservableObject {
                 if let error = error {
                     print("Error while uploading file: ", error)
                 } else {
+                    print("TESTING123")
+                    storageRef.downloadURL { url, error in
+                        if let error = error {
+                            print("local Description")
+                            print(error.localizedDescription)
+                        } else {
+                            if let url = url {
+                                print(url.absoluteString)
+                            }
+                            print("vvv putData metadata vvv")
+                            print(metadata ?? "Default Metadata")
+                            print("^^^^^^^^^^^^")
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+    
+    // TODO
+    func proceduralUpload(image: UIImage, for uid: String, named name: String) {
+        let storageRef = storage.reference().child("test/test2/test3/mountains.jpg")
+        let resizedImage = image.aspectFittedToHeight(200)
+        let data = resizedImage.jpegData(compressionQuality: 0.2)
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        metadata.contentDisposition = "initialCommit";
+        
+        print("---------------------")
+        print("proceduralUpload stuff")
+        print(storageRef.name)
+        print(storageRef.fullPath)
+        print("---------------------")
+        if let data = data {
+            storageRef.putData(data, metadata: metadata) { (metadata, error) in
+                if let error = error {
+                    print("Error while uploading file: ", error)
+                } else {
                     storageRef.downloadURL { url, error in
                         if let error = error {
                             print(error.localizedDescription)
@@ -30,7 +69,7 @@ class StorageManager: ObservableObject {
                             if let url = url {
                                 print(url.absoluteString)
                             }
-                            print("vvv putData metadata vvv")
+                            print("vvv proceduralUpload metadata vvv")
                             print(metadata ?? "Default Metadata")
                             print("^^^^^^^^^^^^")
                         }
@@ -49,6 +88,21 @@ class StorageManager: ObservableObject {
             } else {
                 print("++++++++++++")
                 print(metadata ?? "Default Metadata")
+                print("++++++++++++")
+            }
+            
+        }
+    }
+    
+    func proceduralGetMetadata(image: UIImage, for uid: String, named name: String) {
+        let storageRef = storage.reference().child("test/test2/test3/mountains.jpg")
+        storageRef.getMetadata { metadata, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("++++++++++++")
+                print(metadata ?? "Default Metadata")
+                print(metadata?.name == "mountains.jpg")
                 print("++++++++++++")
             }
             

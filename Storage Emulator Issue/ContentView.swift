@@ -86,6 +86,20 @@ struct ContentView: View {
                 Text("Update Metadata")
             }
         }
+        if vm.isUserAuthenticated == .signedIn {
+            Button {
+                vm.proceduralUpload()
+            } label: {
+                Text("Procedural Upload")
+            }
+        }
+        if vm.isUserAuthenticated == .signedIn {
+            Button {
+                vm.proceduralGetMetadata()
+            } label: {
+                Text("Procedural Get Metadata")
+            }
+        }
     }
 }
 

@@ -70,6 +70,7 @@ class ViewModel: ObservableObject {
                         self.image = UIImage(data: imageData)!
                     }
                 case .failure(let error):
+                    print("getProfileImage Failure")
                     print(error.localizedDescription)
                 }
             })
@@ -96,6 +97,22 @@ class ViewModel: ObservableObject {
         let storageManager = StorageManager()
         if let userID = userID {
             storageManager.upload(image: image, for: "Profiles", named: userID)
+            
+        }
+    }
+    
+    func proceduralUpload() {
+        let storageManager = StorageManager()
+        if let userID = userID {
+            storageManager.proceduralUpload(image: image, for: "Profiles", named: userID)
+            
+        }
+    }
+    
+    func proceduralGetMetadata() {
+        let storageManager = StorageManager()
+        if let userID = userID {
+            storageManager.proceduralGetMetadata(image: image, for: "Profiles", named: userID)
             
         }
     }
